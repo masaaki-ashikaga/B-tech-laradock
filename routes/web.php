@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'ShopController@index');
 
 //Helloページ
 Route::get('hello', 'HelloController@index');
@@ -29,3 +27,7 @@ Route::get('hello/show', 'HelloController@show');
 Route::get('person', 'PersonController@index');
 Route::get('person/find', 'PersonController@find');
 Route::post('person/find', 'PersonController@search');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
