@@ -11,7 +11,9 @@
 |
 */
 
+
 Route::get('/', 'ShopController@index');
+Route::get('/mycart', 'ShopController@myCart')->middleware('auth');
 
 //Helloページ
 Route::get('hello', 'HelloController@index');
