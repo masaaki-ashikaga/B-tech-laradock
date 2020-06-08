@@ -11,16 +11,16 @@ class CreatePeopleTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('people', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('mail');
-            $table->integer('age');
-            $table->timestamps();
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::create('people', function (Blueprint $table) {
+    //         $table->increments('id');
+    //         $table->string('name');
+    //         $table->string('mail');
+    //         $table->integer('age');
+    //         $table->timestamps();
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
