@@ -14,6 +14,7 @@
 
 Route::get('/', 'ShopController@index');
 Route::get('/mycart', 'ShopController@myCart')->middleware('auth');
+Route::post('/mycart', 'ShopController@addMycart')->name('mycart')->middleware('auth');
 
 //Helloページ
 Route::get('hello', 'HelloController@index');

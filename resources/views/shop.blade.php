@@ -10,10 +10,15 @@
                 商品一覧を出したい
                 @foreach($stocks as $stock)
                     {{ $stock->name }}<br>
-                    {{ $stock->fee }}<br>
+                    {{ $stock->fee }}円<br>
                     <img src="/image/{{ $stock->imgpath }}" alt="" class="incart">
                     <br>
                     {{ $stock->detail }}<br>
+                    <form action="{{ route('mycart') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="stock_id" value="{{ $stock->id }}">
+                        <input type="submit" value="カートに入れる">
+                    </form>
                 @endforeach
                 {{ $stocks->links() }}
             </div>
