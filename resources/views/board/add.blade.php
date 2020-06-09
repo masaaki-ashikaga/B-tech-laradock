@@ -1,6 +1,6 @@
 @extends('layouts.helloapp')
 
-@section('title', 'Person.Add')
+@section('title', 'Board.Add')
 
 @section('menubar')
 @parent
@@ -18,7 +18,7 @@
     </div>
     @endif
     <table>
-        <form action="/person/add" method="POST">
+        <form action="/board/add" method="POST">
             {{ csrf_field() }}
             <tr><th>person_id:</th><td><input type="number" name="person_id"></td></tr>
             <tr><th>title:</th><td><input type="text" name="title"></td></tr>
