@@ -13,9 +13,13 @@
 
 
 Route::get('/', 'ShopController@index');
-Route::get('/mycart', 'ShopController@myCart')->middleware('auth');
-Route::post('/mycart', 'ShopController@addMycart')->name('mycart')->middleware('auth');
-Route::post('/cartdelete', 'ShopController@deleteCart');
+
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/mycart', 'ShopController@myCart');
+    Route::post('/mycart', 'ShopController@addMycart')->name('mycart');
+    Route::post('/cartdelete', 'ShopController@deleteCart');
+    Route::post('/checkout', 'ShopController@checkout');
+});
 
 //Helloページ
 Route::get('hello', 'HelloController@index');
