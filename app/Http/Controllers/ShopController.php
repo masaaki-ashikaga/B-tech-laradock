@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use App\Models\Cart;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -23,13 +24,30 @@ class ShopController extends Controller
         return view('mycart', $data);
     }
 
-    public function addMycart(Request $request, Cart $cart)
+    public function selectItem(Request $request, Cart $cart)
     {
-        $stock_id = $request->stock_id;
-        $message = $cart->addCart($stock_id);
-        $data = $cart->showCart();
-        return view('mycart', $data)->with('message', $message);
+        if($request->input('detail'))
+        {
+            $stock_id = $request->stock_id;
+            $items = DB::table('stocks')->where('id', $stock_id)->get();
+            return view('detail', compact('items'));
+        } 
+        elseif($request->input('putIn'))
+        {
+            $stock_id = $request->stock_id;
+            $message = $cart->addCart($stock_id);
+            $data = $cart->showCart();
+            return view('mycart', $data)->with('message', $message);
+        }
     }
+
+    // public function addMycart(Request $request, Cart $cart)
+    // {
+    //     $stock_id = $request->stock_id;
+    //     $message = $cart->addCart($stock_id);
+    //     $data = $cart->showCart();
+    //     return view('mycart', $data)->with('message', $message);
+    // }
 
     public function deleteCart(Request $request, Cart $cart)
     {
@@ -41,10 +59,10 @@ class ShopController extends Controller
 
     public function checkout(Request $request, Cart $cart)
     {
-        $user = Auth::user();
-        $mail_data['user'] = $user->name;
+        $user_id = Auth::user();
+        $mail_data['user'] = $user_id->name;
         $mail_data['checkout_items'] = $cart->checkoutCart();
-        Mail::to($user->email)->send(new Thanks($mail_data));
+        Mail::to($user_id->email)->send(new Thanks($mail_data));
         return view('checkout');
     }
 }
