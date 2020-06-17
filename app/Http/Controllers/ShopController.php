@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use App\Models\Cart;
+use App\Http\Requests\StockRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -64,5 +65,21 @@ class ShopController extends Controller
         $mail_data['checkout_items'] = $cart->checkoutCart();
         Mail::to($user_id->email)->send(new Thanks($mail_data));
         return view('checkout');
+    }
+
+    public function stockAdd()
+    {
+        return view('create');
+    }
+
+    public function stockCreate(StockRequest $request)
+    {
+        $stock = new Stock;
+        $stock->name = $request->name;
+        $stock->detail = $request->detail;
+        $stock->fee = $request->fee;
+        $stock->imgpath = $request->imgpath;
+        $stock->save();
+        return redirect('/');
     }
 }

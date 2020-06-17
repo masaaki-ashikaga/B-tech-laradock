@@ -69,6 +69,9 @@
                                    <a class="dropdown-item" href="{{ url('/mycart') }}">
                                        カートを見る
                                    </a>
+                                   <a class="dropdown-item" href="{{ url('/stock/create') }}">
+                                       商品を追加
+                                   </a>
                                </div>
                            </li>
                            {{-- 追加 --}}

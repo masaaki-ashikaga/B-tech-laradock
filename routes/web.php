@@ -20,6 +20,8 @@ Route::group(['middleware' => ['auth']], function(){
     // Route::post('/mycart', 'ShopController@addMycart')->name('mycart');
     Route::post('/cartdelete', 'ShopController@deleteCart');
     Route::post('/checkout', 'ShopController@checkout');
+    Route::get('/stock/create', 'ShopController@stockAdd');
+    Route::post('/stock/create', 'ShopController@stockCreate');
 });
 
 //Helloページ
