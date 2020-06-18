@@ -21,7 +21,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/cartdelete', 'ShopController@deleteCart');
     Route::post('/checkout', 'ShopController@checkout');
     Route::get('/stock/create', 'ShopController@stockAdd');
-    Route::post('/stock/create', 'ShopController@stockCreate');
+    Route::post('/stock/create', 'ShopController@stockCreate')->name('stock.create');
 });
 
 //Helloページ

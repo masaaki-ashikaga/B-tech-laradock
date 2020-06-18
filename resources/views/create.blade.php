@@ -6,7 +6,7 @@
     <h1 style="color:#555555; text-align:center; font-size:1.2em; padding:24px 0px; font-weight:bold;">商品追加</h1>
 
     <div class="container">
-        <form action="/stock/create" method="POST" class="form-horizontal">
+        <form action="{{ route('stock.create') }}" method="POST" class="form-horizontal">
             @csrf
             <div class="form-group">
                 <label for="name">商品名</label>
