@@ -26,9 +26,12 @@ class ShopController extends Controller
 
     public function selectItem(Request $request, Cart $cart)
     {
+        //同じメソッド内に違う処理を分岐させるのはなるべくやめたほうが良きです。理由はViewの方に書いてます。
         if($request->input('detail'))
         {
             $stock_id = $request->stock_id;
+            //DBファサードを利用していますが、これくらいだとEloquantが良いかもしれません。今後レビュー投稿などを紐づけて表示させるので記述が冗長になってきます。
+            //ただNGな訳ではないです。
             $items = DB::table('stocks')->where('id', $stock_id)->get();
             return view('detail', compact('items'));
         } 
