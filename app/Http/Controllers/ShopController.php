@@ -72,14 +72,15 @@ class ShopController extends Controller
         return view('create');
     }
 
-    public function stockCreate(StockRequest $request)
+    public function stockCreate(StockRequest $request, Stock $stock)
     {
-        $stock = new Stock;
-        $stock->name = $request->name;
-        $stock->detail = $request->detail;
-        $stock->fee = $request->fee;
-        $stock->imgpath = $request->imgpath;
-        $stock->save();
+        // $stock = new Stock;
+        // $stock->name = $request->name;
+        // $stock->detail = $request->detail;
+        // $stock->fee = $request->fee;
+        // $stock->imgpath = $request->imgpath;
+        // $stock->save();
+        $stock->create($request);
         return redirect('/');
     }
 }
