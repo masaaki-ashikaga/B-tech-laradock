@@ -33,11 +33,11 @@ class ShopController extends Controller
         return view('mycart', $data)->with('message', $message);
     }
 
-    public function stockDetail(Request $request, Stock $stock)
+    public function stockDetail(Request $request)
     {
         // $stock_id = $request->stock_id;
         // $items = DB::table('stocks')->where('id', $stock_id)->get();  //DBファサードでデータ取得
-        $items = $stock::where('id', $request->stock_id)->get();  //Eloquentでデータ取得
+        $items = Stock::where('id', $request->stock_id)->get();  //Eloquentでデータ取得
         return view('detail', compact('items'));
     }
 
