@@ -66,10 +66,13 @@
                                    </form>
 
                                    {{-- 追加 --}}
-                                   <a class="dropdown-item" href="{{ url('/mycart') }}">
+                                   <a class="dropdown-item" href="{{ route('mycart') }}">
                                        カートを見る
                                    </a>
-                                   <a class="dropdown-item" href="{{ url('/stock/create') }}">
+                                   <a class="dropdown-item" href="{{ route('mycart.history') }}">
+                                       購入履歴を見る
+                                   </a>
+                                   <a class="dropdown-item" href="{{ route('stock.create') }}">
                                        商品を追加
                                    </a>
                                </div>
