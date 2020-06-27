@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Stock;
 use App\Models\Cart;
 use App\Models\History;
+use App\Models\Review;
 use App\Http\Requests\StockRequest;
+use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -75,5 +77,18 @@ class ShopController extends Controller
         $user_id = Auth::id();
         $data['my_histories'] = History::where('user_id', $user_id)->paginate(5);
         return view('history', $data);
+    }
+
+    public function mycartReview(Request $request)
+    {
+        $stock_id = $request->stock_id;
+        $items = Stock::where('id', $stock_id)->get();
+        return view('review', compact('items', 'stock_id'));
+    }
+
+    public function postReview(Request $request, Review $review)
+    {
+        $review->reviewCreate($request);
+        return redirect('/');
     }
 }
