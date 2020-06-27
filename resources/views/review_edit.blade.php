@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <h1 style="color:#555555; text-align:center; font-size:1.2em; padding:24px 0px; font-weight:bold;">商品レビュー投稿</h1>
+    <h1 style="color:#555555; text-align:center; font-size:1.2em; padding:24px 0px; font-weight:bold;">商品レビュー編集</h1>
     <h3 class="ml-5">この商品をレビュー</h3>
     @foreach($items as $item)
     <div class="d-flex mb-5 ml-5">
@@ -14,10 +14,12 @@
         </div>
     </div>
     @endforeach
-    {{-- ここに商品画像と商品名を入れる --}}
+
     <div class="container">
-        <form action="{{ route('post.review') }}" method="POST" class="form-horizontal">
+        @foreach($reviews as $review)
+        <form action="{{ route('update.review') }}" method="POST" class="form-horizontal">
             @csrf
+            <input type="hidden" name="id" value="{{ $review->id }}">
             <input type="hidden" name="user_id" value="{{ Auth::id() }}">
             <input type="hidden" name="stock_id" value="{{ $stock_id }}">
             <div class="form-group">
@@ -28,11 +30,11 @@
                 <div class="row">
                     <select name="evaluation">
                         <option value="">評価を選択して下さい</option>
-                        <option value="1">★</option>
-                        <option value="2">★★</option>
-                        <option value="3">★★★</option>
-                        <option value="4">★★★★</option>
-                        <option value="5">★★★★★</option>
+                        <option value="1" @if($review->evaluation === 1) selected @endif>★</option>
+                        <option value="2" @if($review->evaluation === 2) selected @endif>★★</option>
+                        <option value="3" @if($review->evaluation === 3) selected @endif>★★★</option>
+                        <option value="4" @if($review->evaluation === 4) selected @endif>★★★★</option>
+                        <option value="5" @if($review->evaluation === 5) selected @endif>★★★★★</option>
                     </select>
                 </div>
             </div>
@@ -42,7 +44,7 @@
                     <div class="text-danger mb-1">{{ $message }}</div>
                 @enderror
                 <div class="row">
-                    <input type="text" name="review_title" class="form-control">
+                    <input type="text" name="review_title" class="form-control" value="{{ $review->review_title }}">
                 </div>
             </div>
             <div class="form-group">
@@ -51,7 +53,7 @@
                     <div class="text-danger mb-1">{{ $message }}</div>
                 @enderror
                 <div class="row">
-                    <textarea name="review" class="form-control" style="height: 10em;"></textarea>
+                    <textarea name="review" class="form-control" style="height: 10em;">{{ $review->review }}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -65,5 +67,6 @@
             </div>
             <p><input type="submit" value="追加する" class="btn btn-danger btn-lg buy-btn"></p>
         </form>
+        @endforeach
     </div>
 @endsection

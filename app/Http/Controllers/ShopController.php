@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Models\Stock;
 use App\Models\Cart;
 use App\Models\History;
@@ -36,10 +37,12 @@ class ShopController extends Controller
         return view('mycart', $data)->with('message', $message);
     }
 
-    public function stockDetail(Request $request)
+    public function stockDetail(Request $request, Review $review)
     {
-        $items = Stock::where('id', $request->stock_id)->get();  //Eloquentでデータ取得
-        return view('detail', compact('items'));
+        $stock_id = $request->stock_id;
+        $items = Stock::where('id', $stock_id)->get();  //Eloquentでデータ取得
+        $reviews = Review::where('stock_id', $stock_id)->get();
+        return view('detail', compact('items', 'reviews'));
     }
 
     public function deleteCart(Request $request, Cart $cart)
@@ -72,11 +75,11 @@ class ShopController extends Controller
         return redirect('/');
     }
 
-    public function mycartHistory(History $history)
+    public function mycartHistory()
     {
         $user_id = Auth::id();
-        $data['my_histories'] = History::where('user_id', $user_id)->paginate(5);
-        return view('history', $data);
+        $my_histories = History::where('user_id', $user_id)->paginate(5);
+        return view('history', compact('my_histories'));
     }
 
     public function mycartReview(Request $request)
@@ -86,9 +89,30 @@ class ShopController extends Controller
         return view('review', compact('items', 'stock_id'));
     }
 
-    public function postReview(Request $request, Review $review)
+    public function postReview(ReviewRequest $request, Review $review)
     {
         $review->reviewCreate($request);
+        return redirect('/');
+    }
+
+    public function editReview(Request $request)
+    {
+        $stock_id = $request->stock_id;
+        $items = Stock::where('id', $stock_id)->get();
+        $reviews = Review::where('id', $request->id)->get();
+        return view('review_edit', compact('items', 'reviews', 'stock_id'));
+    }
+
+    public function updateReview(ReviewRequest $request, Review $review)
+    {
+        $id = $request->id;
+        $review->reviewUpdate($id, $request);
+        return redirect('/');
+    }
+
+    public function deleteReview(Request $request)
+    {
+        Review::find($request->id)->delete();
         return redirect('/');
     }
 }

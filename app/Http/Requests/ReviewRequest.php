@@ -13,7 +13,7 @@ class ReviewRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->path() == 'post/review'){
+        if($this->path() == 'mycart/review' | $this->path() == 'edit/review'){
             return true;
         } else{
             return false;
@@ -41,7 +41,7 @@ class ReviewRequest extends FormRequest
             'review_title.max:100' => 'レビュータイトルは100文字以内で入力してください。',
             'review.required' => '商品レビューは必須項目です。',
             'review.max:500' => '商品レビューは500文字以上で入力してください。',
-            'evalutation.required' => '評価を選択してください',
+            'evaluation.required' => '評価を選択してください',
         ];
     }
 }

@@ -23,8 +23,11 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/stock/create', 'ShopController@stockAdd');
     Route::post('/stock/create', 'ShopController@stockCreate')->name('stock.create');
     Route::get('/mycart/history', 'ShopController@mycartHistory')->name('mycart.history');
-    Route::post('/mycart/review', 'ShopController@mycartReview')->name('mycart.review');
-    Route::post('/post/review', 'ShopController@postReview')->name('post.review');
+    Route::get('/mycart/review', 'ShopController@mycartReview')->name('mycart.review');
+    Route::post('/mycart/review', 'ShopController@postReview')->name('post.review');
+    Route::get('/edit/review', 'ShopController@editReview')->name('edit.review');
+    Route::post('/edit/review', 'ShopController@updateReview')->name('update.review');
+    Route::post('/delete/review', 'ShopController@deleteReview')->name('delete.review');
 });
 
 //Helloページ
