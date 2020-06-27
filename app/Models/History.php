@@ -29,15 +29,4 @@ class History extends Model
     {
         return $this->belongsTo('App\Models\Stock');
     }
-
-    public function showHistory()
-    {
-        $user_id = Auth::id();
-        $data['my_history'] = $this->where('user_id', $user_id)->get();
-        foreach($data['my_history'] as $my_history)
-        {
-            $data['stock'] = $my_history->stock;
-        }
-        return $data;
-    }
 }

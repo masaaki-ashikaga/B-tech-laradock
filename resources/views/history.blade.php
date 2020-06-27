@@ -16,7 +16,7 @@
                             {{ number_format($my_history->stock->fee) }}円<br>
                             <img src="/image/{{ $my_history->stock->imgpath }}" alt="" class="incart"><br>
                             {{ $my_history->created_at }}に購入<br>
-                            <form action="{{ route('mycart.review') }}" method="POST" class="mb-2 mt-2">
+                            <form action="{{ route('mycart.review') }}" method="GET" class="mb-2 mt-2">
                                 @csrf
                                 <input type="hidden" name="stock_id" value="{{ $my_history->stock->id }}">
                                 <input type="submit" value="商品レビューを投稿">
