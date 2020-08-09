@@ -15,13 +15,19 @@
 Route::get('/', 'ShopController@index');
 
 Route::group(['middleware' => ['auth']], function(){
-    Route::get('/mycart', 'ShopController@myCart');
+    Route::get('/mycart', 'ShopController@myCart')->name('mycart');
     Route::post('/stock/detail', 'ShopController@stockDetail')->name('stock.detail');
     Route::post('/mycart', 'ShopController@addMycart')->name('mycart.add');
     Route::post('/cartdelete', 'ShopController@deleteCart');
     Route::post('/checkout', 'ShopController@checkout');
     Route::get('/stock/create', 'ShopController@stockAdd');
     Route::post('/stock/create', 'ShopController@stockCreate')->name('stock.create');
+    Route::get('/mycart/history', 'ShopController@mycartHistory')->name('mycart.history');
+    Route::get('/mycart/review', 'ShopController@mycartReview')->name('mycart.review');
+    Route::post('/mycart/review', 'ShopController@postReview')->name('post.review');
+    Route::get('/edit/review', 'ShopController@editReview')->name('edit.review');
+    Route::post('/edit/review', 'ShopController@updateReview')->name('update.review');
+    Route::post('/delete/review', 'ShopController@deleteReview')->name('delete.review');
 });
 
 //Helloページ

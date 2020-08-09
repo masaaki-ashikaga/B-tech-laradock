@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Models\Stock;
 use App\Models\Cart;
+use App\Models\History;
+use App\Models\Review;
 use App\Http\Requests\StockRequest;
+use App\Http\Requests\ReviewRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -33,12 +37,12 @@ class ShopController extends Controller
         return view('mycart', $data)->with('message', $message);
     }
 
-    public function stockDetail(Request $request)
+    public function stockDetail(Request $request, Review $review)
     {
-        // $stock_id = $request->stock_id;
-        // $items = DB::table('stocks')->where('id', $stock_id)->get();  //DBファサードでデータ取得
-        $items = Stock::where('id', $request->stock_id)->get();  //Eloquentでデータ取得
-        return view('detail', compact('items'));
+        $stock_id = $request->stock_id;
+        $items = Stock::where('id', $stock_id)->get();  //Eloquentでデータ取得
+        $reviews = Review::where('stock_id', $stock_id)->get();
+        return view('detail', compact('items', 'reviews'));
     }
 
     public function deleteCart(Request $request, Cart $cart)
@@ -49,12 +53,14 @@ class ShopController extends Controller
         return view('mycart', $data)->with('message', $message);
     }
 
-    public function checkout(Request $request, Cart $cart)
+    public function checkout(Request $request, Cart $cart, History $history)
     {
-        $user_id = Auth::user();
-        $mail_data['user'] = $user_id->name;
+        $user_id = Auth::id();
+        $mycart_items = Cart::where('user_id', $user_id)->get();
+        $history->addHistory($mycart_items);
+        $mail_data['user'] = Auth::user()->name;
         $mail_data['checkout_items'] = $cart->checkoutCart();
-        Mail::to($user_id->email)->send(new Thanks($mail_data));
+        Mail::to(Auth::user()->email)->send(new Thanks($mail_data));
         return view('checkout');
     }
 
@@ -65,13 +71,48 @@ class ShopController extends Controller
 
     public function stockCreate(StockRequest $request, Stock $stock)
     {
-        // $stock = new Stock;
-        // $stock->name = $request->name;
-        // $stock->detail = $request->detail;
-        // $stock->fee = $request->fee;
-        // $stock->imgpath = $request->imgpath;
-        // $stock->save();
         $stock->create($request);
+        return redirect('/');
+    }
+
+    public function mycartHistory()
+    {
+        $user_id = Auth::id();
+        $my_histories = History::where('user_id', $user_id)->paginate(5);
+        return view('history', compact('my_histories'));
+    }
+
+    public function mycartReview(Request $request)
+    {
+        $stock_id = $request->stock_id;
+        $items = Stock::where('id', $stock_id)->get();
+        return view('review', compact('items', 'stock_id'));
+    }
+
+    public function postReview(ReviewRequest $request, Review $review)
+    {
+        $review->reviewCreate($request);
+        return redirect('/');
+    }
+
+    public function editReview(Request $request)
+    {
+        $stock_id = $request->stock_id;
+        $items = Stock::where('id', $stock_id)->get();
+        $reviews = Review::where('id', $request->id)->get();
+        return view('review_edit', compact('items', 'reviews', 'stock_id'));
+    }
+
+    public function updateReview(ReviewRequest $request, Review $review)
+    {
+        $id = $request->id;
+        $review->reviewUpdate($id, $request);
+        return redirect('/');
+    }
+
+    public function deleteReview(Request $request)
+    {
+        Review::find($request->id)->delete();
         return redirect('/');
     }
 }

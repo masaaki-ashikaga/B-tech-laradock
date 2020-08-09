@@ -31,7 +31,7 @@ class StockRequest extends FormRequest
             'name' => 'required|max:100',
             'detail' => 'required|max:500',
             'fee' => 'required|integer',
-            'imgpath' => 'image|max:200000',
+            'imgpath' => 'max:200000',
         ];
     }
 
@@ -44,7 +44,6 @@ class StockRequest extends FormRequest
             'detail.max:500' => '商品詳細は500文字以内で入力してください。',
             'fee.required' => '金額は必須項目です。',
             'fee.integer' => '金額は数字で入力してください。',
-            'imgpath.image' => 'イメージファイルをアップロードして下さい。',
             'imgpath.max:200000' => 'サイズは200MB以内です。',
         ];
     }
